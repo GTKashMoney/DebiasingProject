@@ -1,0 +1,6 @@
+[submodule "dfdc_deepfake_challenge"]
+	path = dfdc_deepfake_challenge
+	url = https://github.com/GTKashMoney/dfdc_deepfake_challenge.git
+[submodule "entangling-disentangling-bias"]
+	path = entangling-disentangling-bias
+	url = https://github.com/GTKashMoney/entangling-disentangling-bias.git
