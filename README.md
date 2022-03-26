@@ -21,8 +21,8 @@ TThe original data is approximately 470GB, consisting of thousands of short conv
 
 ## Group Members:
 
-Kyle Caverly
-Steffen Lim
-Arnold Nunez
-Hannah White
+* Kyle Caverly
+* Steffen Lim
+* Arnold Nunez
+* Hannah White
 
