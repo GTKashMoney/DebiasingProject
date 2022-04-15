@@ -99,6 +99,12 @@ for dfdc_key in dfdc_json.keys():
     for cc_key, cc_val in cc_json[dfdc_key].items():
         output_dict[dfdc_key][cc_key] = cc_val
 
+    # Change "is_fake" entry to kaggle verison "label"
+    if output_dict[dfdc_key]['is_fake'] == 0:
+        output_dict[dfdc_key]['label'] = "FAKE"
+    elif output_dict[dfdc_key]['is_fake'] == 1:
+        output_dict[dfdc_key]['label'] = "REAL"
+
 # Write to output file
 output_fp = open(output_file, 'w+')
 json.dump(output_dict, output_fp)
