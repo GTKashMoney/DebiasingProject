@@ -59,13 +59,13 @@ df_file = open(metadata, 'r')
 meta_json = json.loads(df_file.read())
 
 # Condition splits on the skin-type field - Create skin-type histogram
-skin_hist = dict()
+unique_id = {}
+skin_hist = {x: [] for x in range(1, 7)}
 for k, v in meta_json.items():
-    skin_type = int(v['casual_conv_label']['skin-type'])
-    if skin_hist.get(skin_type, None) is None:
-        skin_hist[skin_type] = list()
-
-    skin_hist[skin_type].append(k)
+    if v["casual_conv_subject_id"] not in unique_id.keys():
+        unique_id[v["casual_conv_subject_id"]] = []
+        skin_hist[int(v["casual_conv_label"]["skin-type"])].append(v["casual_conv_subject_id"])
+    unique_id[v["casual_conv_subject_id"]].append(k)
 
 # Validating
 for k, v in skin_hist.items():
@@ -123,27 +123,29 @@ working_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Move training videos to train set, modify metadata to mark as train
 train_metadata = dict()
-for vid in train_keys:
-    train_metadata[vid] = meta_json[vid]
-    train_metadata[vid]['split'] = "train"
+for subject_id in train_keys:
+    for vid in unique_id[subject_id]:
+        train_metadata[vid] = meta_json[vid]
+        train_metadata[vid]['split'] = "train"
 
-    old_file_path = os.path.join(working_dir, vid)
-    new_file_path = os.path.join(working_dir, train_folder, vid)
+        old_file_path = os.path.join(working_dir, vid)
+        new_file_path = os.path.join(working_dir, train_folder, vid)
 
-    if os.path.exists(old_file_path):
-        os.replace(old_file_path, new_file_path)
+        if os.path.exists(old_file_path):
+            os.replace(old_file_path, new_file_path)
 
 # Move test videos to test set, modify metadata to mark as test
 test_metadata = dict()
-for vid in test_keys:
-    test_metadata[vid] = meta_json[vid]
-    test_metadata[vid]['split'] = 'test'
+for subject_id in test_keys:
+    for vid in unique_id[subject_id]:
+        test_metadata[vid] = meta_json[vid]
+        test_metadata[vid]['split'] = 'test'
 
-    old_file_path = os.path.join(working_dir, vid)
-    new_file_path = os.path.join(working_dir, test_folder, vid)
+        old_file_path = os.path.join(working_dir, vid)
+        new_file_path = os.path.join(working_dir, test_folder, vid)
 
-    if os.path.exists(old_file_path):
-        os.replace(old_file_path, new_file_path)
+        if os.path.exists(old_file_path):
+            os.replace(old_file_path, new_file_path)
 
 train_meta_path = os.path.join(working_dir, train_folder, 'metadata.json')
 test_meta_path = os.path.join(working_dir, test_folder, 'metadata.json')
