@@ -123,6 +123,7 @@ working_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Move training videos to train set, modify metadata to mark as train
 train_metadata = dict()
+subj_vid_count = dict()
 for subject_id in train_keys:
     for vid in unique_id[subject_id]:
         train_metadata[vid] = meta_json[vid]
@@ -133,6 +134,7 @@ for subject_id in train_keys:
 
         if os.path.exists(old_file_path):
             os.replace(old_file_path, new_file_path)
+print(f"len train metadata: {len(train_metadata)}")
 
 # Move test videos to test set, modify metadata to mark as test
 test_metadata = dict()
@@ -146,6 +148,7 @@ for subject_id in test_keys:
 
         if os.path.exists(old_file_path):
             os.replace(old_file_path, new_file_path)
+print(f"len test metadata: {len(test_metadata)}")
 
 train_meta_path = os.path.join(working_dir, train_folder, 'metadata.json')
 test_meta_path = os.path.join(working_dir, test_folder, 'metadata.json')
