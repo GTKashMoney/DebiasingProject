@@ -17,7 +17,8 @@ with open(metadata, "r") as file:
     print(type(data))
 
     for k, v in data.items():
-        v["original"] = None
+        if v["label"] == "FAKE":
+            v["original"] = None
 
 with open(metadata, "w+") as file:
     json.dump(data, file)
