@@ -4,21 +4,20 @@ import json
 import os
 import random
 import pandas as pd
+import math
 from tqdm import tqdm
 
 def get_unique(meta_json):
     unique_id = {}
-    skin_hist = {x: [] for x in range(1, 7)}
+    video_to_skin = {}
     for k, v in meta_json.items():
         if v["casual_conv_subject_id"] not in unique_id.keys():
             unique_id[v["casual_conv_subject_id"]] = []
-            skin_hist[int(v["casual_conv_label"]["skin-type"])].append(v["casual_conv_subject_id"])
+        video_to_skin[k[:-4]] = int(v["casual_conv_label"]["skin-type"])
         unique_id[v["casual_conv_subject_id"]].append(k)
 
     # Validating
-    for k, v in skin_hist.items():
-        print(f"skin type: {k} count: {len(v)}")
-    return unique_id, skin_hist
+    return unique_id, video_to_skin
 
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument("--root-dir", help="root directory", default="/dataset")
@@ -36,25 +35,27 @@ if args.f is not None:
 with open(metadata, "r") as file:
     data = json.load(file)
 
+print(f"len data: {len(data)}")
+
 # Take samples from buckets
 # unique_id = {user id, list[video names]}
-unique_id, skin_hist = get_unique(data)
+unique_id, video_to_skin = get_unique(data)
 # fold_video = {video names, fold number}
 fold_videos = {}
+print(f"len unique id: {len(unique_id)}")
 
 num_subj_id_in_split = int(len(unique_id) / args.n_splits)
-# print(len(unique_id))
+# print(f"num subj ids splits: {num_subj_id_in_split}")
 for fold in range(args.n_splits):
-    end = (fold+1)*num_subj_id_in_split
-    subj_fold = list(unique_id.keys())[fold*num_subj_id_in_split:end if end < len(unique_id) else len(unique_id)]
-    # list[user id]
-    # print(len(subj_fold))
+    end = None if fold == args.n_splits-1 else (fold+1)*num_subj_id_in_split
+    subj_fold = list(unique_id.keys())[fold*num_subj_id_in_split : end]
 
     for subj_id in subj_fold:
         for vid in unique_id[subj_id]:
             fold_videos[vid[:-4]] = fold
 
 print("fold_videos", len(fold_videos))
+print(f"video to skin: {len(video_to_skin)}")
 
 fold_data = []
 crops_path = os.path.join(args.root_dir, "crops")
@@ -69,8 +70,8 @@ for video in os.listdir(crops_path):
     fold = fold_videos[video]
     for file in dirs:
         if file.endswith(".png"):
-            fold_data.append([video, file, label, ori_vid, int(file.split("_")[0]), fold])
+            fold_data.append([video, file, label, ori_vid, int(file.split("_")[0]), fold, video_to_skin[video]])
 
 
 random.shuffle(fold_data)
-pd.DataFrame(fold_data, columns=["video", "file", "label", "original", "frame", "fold"]).to_csv(args.out, index=False)
+pd.DataFrame(fold_data, columns=["video", "file", "label", "original", "frame", "fold", "skin_tag"]).to_csv(args.out, index=False)
