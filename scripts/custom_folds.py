@@ -37,27 +37,39 @@ with open(metadata, "r") as file:
     data = json.load(file)
 
 # Take samples from buckets
+# unique_id = {user id, list[video names]}
 unique_id, skin_hist = get_unique(data)
+# fold_video = {video names, fold number}
 fold_videos = {}
 
-num_subj_id_in_split = len(unique_id) / args.n_splits
+num_subj_id_in_split = int(len(unique_id) / args.n_splits)
+# print(len(unique_id))
 for fold in range(args.n_splits):
-    subj_fold = list(unique_id.keys())[fold*num_subj_id_in_split:(fold+1)*num_subj_id_in_split]
+    end = (fold+1)*num_subj_id_in_split
+    subj_fold = list(unique_id.keys())[fold*num_subj_id_in_split:end if end < len(unique_id) else len(unique_id)]
+    # list[user id]
+    # print(len(subj_fold))
 
-    for i in range(len(subj_fold)):
-        fold_videos[subj_fold[i][:-4]] = fold
+    for subj_id in subj_fold:
+        for vid in unique_id[subj_id]:
+            fold_videos[vid[:-4]] = fold
 
+print("fold_videos", len(fold_videos))
 
 fold_data = []
-for k, v in data.items():
-    video = k[:-4]
-    label = v["is_fake"]
+crops_path = os.path.join(args.root_dir, "crops")
+for video in os.listdir(crops_path):
+    if video not in fold_videos:
+        print("Not in here")
+    # print(video)
+    label = int(data[video+".mp4"]["is_fake"])
     ori_vid = video
 
-    dirs = os.listdir(os.path.join(args.root_dir, "crops", k[:-4]))
+    dirs = os.listdir(os.path.join(crops_path, video))
     fold = fold_videos[video]
     for file in dirs:
-        fold_data.append([video, file, label, ori_vid, int(file.split("_")[0]), fold])
+        if file.endswith(".png"):
+            fold_data.append([video, file, label, ori_vid, int(file.split("_")[0]), fold])
 
 
 random.shuffle(fold_data)
