@@ -1,0 +1,119 @@
+=> loading checkpoint '/dataset/weights/final_999_DeepFakeClassifier_tf_efficientnet_b7_ns_0_23'
+=> loaded checkpoint '/dataset/weights/final_999_DeepFakeClassifier_tf_efficientnet_b7_ns_0_23' (epoch 24, bce_best 0.1723601172585609)
+Selected optimization level O1:  Insert automatic casts around Pytorch functions and Tensor methods.
+
+Defaults for this optimization level are:
+enabled                : True
+opt_level              : O1
+cast_model_type        : None
+patch_torch_functions  : True
+keep_batchnorm_fp32    : None
+master_weights         : None
+loss_scale             : dynamic
+Processing user overrides (additional kwargs that are not None)...
+After processing overrides, optimization options are:
+enabled                : True
+opt_level              : O1
+cast_model_type        : None
+patch_torch_functions  : True
+keep_batchnorm_fp32    : None
+master_weights         : None
+loss_scale             : dynamic
+real 5954 fakes 6279 mode val
+real 51912 fakes 51912 mode train
+training epoch 0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 32768.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 2048.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 1024.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 512.0
+Test phase
+type1_fake_loss 0.0614828999480431
+type1_real_loss nan
+type2_fake_loss 0.38977075550397244
+type2_real_loss 0.19383162753541583
+type3_fake_loss 0.3012195794973113
+type3_real_loss 0.11521090556639166
+type4_fake_loss 0.19866342570995374
+type4_real_loss 0.11924655129443056
+type5_fake_loss 0.19643520005068255
+type5_real_loss 0.11664789299397516
+type6_fake_loss 0.08831071600352351
+type6_real_loss 0.27682117159799147
+Max Loss: 0.29180119151969414, Min Loss: 0.0614828999480431
+Epoch 0 improved from 100 to 0.29180119151969414
+Epoch: 0 bce: 0.29180119151969414, bce_best: 0.29180119151969414
+real 51912 fakes 51912 mode train
+training epoch 1
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 512.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 256.0
+Test phase
+type1_fake_loss 0.6419011334773849
+type1_real_loss nan
+type2_fake_loss 0.4185510113244693
+type2_real_loss 0.13412465695181763
+type3_fake_loss 0.27284355379657066
+type3_real_loss 0.08963079468017224
+type4_fake_loss 0.08791977128007221
+type4_real_loss 0.03759175453650258
+type5_fake_loss 0.4390455883977131
+type5_real_loss 0.24312823694434685
+type6_fake_loss 0.1115973086585157
+type6_real_loss 0.24314389774509254
+Max Loss: 0.6419011334773849, Min Loss: 0.0627557629082874
+Epoch: 1 bce: 0.6419011334773849, bce_best: 0.29180119151969414
+real 51912 fakes 51912 mode train
+training epoch 2
+Test phase
+type1_fake_loss 0.6298649319322506
+type1_real_loss nan
+type2_fake_loss 0.6716106347314833
+type2_real_loss 0.26325046585151146
+type3_fake_loss 0.5138802872717644
+type3_real_loss 0.09734728130228135
+type4_fake_loss 0.07524811052726421
+type4_real_loss 0.1412701801603911
+type5_fake_loss 0.9024380572486931
+type5_real_loss 0.16970307609156124
+type6_fake_loss 0.16866882439436934
+type6.0_real_loss 0.32983690364804924
+Max Loss: 0.6298649319322506, Min Loss: 0.10825914534382766
+Epoch: 2 bce: 0.6298649319322506, bce_best: 0.29180119151969414
+real 51912 fakes 51912 mode train
+training epoch 3
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 512.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 256.0
+Test phase
+type1_fake_loss 1.025133116116857
+type1_real_loss nan
+type2_fake_loss 0.5123226836012787
+type2_real_loss 0.14443036953157695
+type3_fake_loss 0.6978822149234252
+type3_real_loss 0.09729897345160998
+type4_fake_loss 0.19236777203294236
+type4_real_loss 0.06723096526581449
+type5_fake_loss 0.27086374190886503
+type5_real_loss 0.2783369265425202
+type6_fake_loss 0.08966459259332031
+type6_real_loss 0.4857800973067647
+Max Loss: 1.025133116116857, Min Loss: 0.1297993686493784
+Epoch: 3 bce: 1.025133116116857, bce_best: 0.29180119151969414
+real 51912 fakes 51912 mode train
+training epoch 4
+Test phase
+type1_fake_loss 1.0171991007281596
+type1_real_loss nan
+type2_fake_loss 0.6341165190282327
+type2_real_loss 0.3767683569706587
+type3_fake_loss 0.40068364830963615
+type3_real_loss 0.13103088407117022
+type4_fake_loss 0.1511047997098062
+type4_real_loss 0.3111624722747586
+type5_fake_loss 0.59350121162823
+type5_real_loss 0.7724317912588335
+type6_fake_loss 0.09006629934632183
+type6_real_loss 0.4370873600043324
+Max Loss: 1.0171991007281596, Min Loss: 0.23113363599228237
+Epoch: 4 bce: 1.0171991007281596, bce_best: 0.29180119151969414
