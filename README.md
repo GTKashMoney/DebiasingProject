@@ -18,6 +18,37 @@ We are looking to investigate a few de-biasing techniques such as post-training 
 
 A full description of the original challenge is available [here](https://www.kaggle.com/c/deepfake-detection-challenge/overview). The challenge seeks to build a model which can classify short videos as either authentic or generated (deepfake). The original dataset is approximately 470GB 
 TThe original data is approximately 470GB, consisting of thousands of short convesational videos. Given the size of the dataset, we may run into concerns with traditional hardware, which can be alleviated through the use of a pre-trained model.
+The fine-tuning data requires information on the skin tone data which can only be found in the test set provided [here](https://dfdc.ai/)
+
+## Data Preprocessing
+After extracting the test set from the dfdc website and combining the data into one folder (this will be your <dataset_location>), the script under scripts/prepare-splits.py is used to splid the data into another train test split.
+```
+prepare-splits.py --f <dataset_location>/metadata.json --tp 80
+```
+Then a train and test fold should apear in the data folder.
+You then want to rename the metadata.json file generated in the test folder to something not *.json so that the glob function does not find it when running the preprocessing.
+```
+mv <dataset_location>/test/metadata.json <dataset_location>/test/metadata.json2
+```
+Then run the modified dfdc_deepfake_challenge/preprocess_data.sh script in the dfdc repo. Follow the instruction in the dfdc readme for more information.
+The preprocessing should generate a boxes folder and a crops folder and nothing else.
+Then run the scripts/custom_folds.py script to generate the folds.csv file
+```
+custom_folds.py --root-dir <dataset_location> -f <dataset_location>/train/metadata.json
+```
+Once the folds.csv is generated, then the trainning can begin.
+
+## Fine-tuning Model
+To train the model, simply run the train.sh script in the dfdc code. You can modify the configs/ folder to add or modify existing configs. Note: this should be running in the docker container described in the dfdc code.
+```
+train.sh <dataset_location> 1
+```
+
+## Inference
+To run inference, just run predict.sh script in the dfdc code. Be sure to modify the script to use the epoch number you want to run inference on and the same RUN_NAME used in the train.sh script. Note: this should be running in the docker container described in the dfdc code.
+```
+predic.sh <dataset_location>
+```
 
 ## Group Members:
 

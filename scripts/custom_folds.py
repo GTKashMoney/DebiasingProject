@@ -28,7 +28,7 @@ def get_unique(meta_json):
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument("--root-dir", help="root directory", default="/dataset")
 arg_parser.add_argument("--out", type=str, default="folds.csv", help="CSV file to save")
-arg_parser.add_argument("--seed", type=int, default=777, help="Seed to split, default 777")
+arg_parser.add_argument("--seed", type=int, default=999, help="Seed to split, default 999")
 arg_parser.add_argument("--n_splits", type=int, default=5, help="Num folds, default 10")
 arg_parser.add_argument('-f', metavar='<DFDC input json>', type=str,
                         help='The DFDC test set metadata json file. Defaults to dfdc_metadata.json')
